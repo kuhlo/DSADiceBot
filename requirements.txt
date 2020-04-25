@@ -1,0 +1,18 @@
+discord.py
+dice
+google-api-python-client
+asyncio
+urllib3
+gspread
+google-auth-httplib2
+google-auth-oauthlib
+oauth2client
+PyOpenSSL
+numpy == 1.17.1
+pandas
+lxml
+tabulate
+pygsheets
+flask
+html5lib
+beautifulsoup4
