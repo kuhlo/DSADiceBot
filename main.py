@@ -249,7 +249,7 @@ async def on_message(message):
 			plant_df['cumrelWkeit'] = plant_df['relWkeit'].cumsum()
 			plant_df = plant_df.sample(n=anz_plants, weights = 'Wkeit', replace=True)
 			plant_list = plant_df[['Pflanze','Bestimmungsschwierigkeit','Link']].values.tolist()
-			msg = '{0.author.mention} Du findest {1} Pflanzen. Teste bitte noch ob du diese auch bestimmen kannst:'.format(message, anz_plants)
+			msg = '{0.author.mention} Du findest {1} Pflanzen. Teste bitte noch ob du diese auch bestimmen kannst und wieviele Anwendungen du von deiner QS bekommst.'.format(message, anz_plants)
 			msg_2 = prettyprintlist(plant_list, ['Name', 'Schwierigkeit', 'Weblink'])
 			await message.channel.send(msg)
 			await message.channel.send(msg_2)
