@@ -186,6 +186,6 @@ def prettyprintDF(df):
     return prettytable
 
 def prettyprintlist(tabelle, ueberschriften):
-    prettytable = tabulate(tabelle, ueberschriften, tablefmt='psql', showindex=False)
+    prettytable = tabulate(tabelle, ueberschriften, tablefmt='simple', showindex=False)
     return prettytable
 

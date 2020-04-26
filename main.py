@@ -200,7 +200,9 @@ async def on_message(message):
 		msg_3 = 'Welche QS hast du nach folgenden Modifikationen in Pflanzenkunde?'
 		msg_4 = 'Wetter Modifikationen:'
 		msg_5 = 'Terrain Modifikationen:'
-		msg_6 = '{0.author.mention} Antworte mit: .pflanzen(Regions Kürzel,Terrain Kürzel,QS)'.format(message)
+		msg_6 = '''{0.author.mention} Antworte mit: .pflanzen(Regions Kürzel,Terrain Kürzel,QS). Wenn du eine spezifische 
+			Pflanze suchst kannst du dir mit .pflanzen(Regions Kürzel, Terrain Kürzel, 0) eine Liste
+			ausgeben lassen. '''.format(message)
 
 		await message.channel.send(msg_1)
 		msg = '```\n' + prettyprintlist(table_reg, ueberschriften_reg) + '```'
@@ -241,18 +243,26 @@ async def on_message(message):
 			plant_df = plant_df[plant_df['Kuerzel'] == region]
 			plant_df = plant_df[plant_df.Aktiv == 1]
 			plant_df = plant_df[plant_df[terrain] == 1]
-			anz_plants = plant_num(QS)
-			#Implement here the selection of plants based on the numbers, differentiate the plants based on suchschwierigkeit
-			plant_df['Wkeit'] = plant_df['Suchschwierigkeit'].apply(convert_suchschwierigkeit)
-			sum_Wkeit = plant_df['Wkeit'].sum()
-			plant_df['relWkeit'] = plant_df['Wkeit'].apply(relative_schwierigkeit, args=(sum_Wkeit,))
-			plant_df['cumrelWkeit'] = plant_df['relWkeit'].cumsum()
-			plant_df = plant_df.sample(n=anz_plants, weights = 'Wkeit', replace=True)
-			plant_list = plant_df[['Pflanze','Bestimmungsschwierigkeit','Link']].values.tolist()
-			msg = '{0.author.mention} Du findest {1} Pflanzen. Teste bitte noch ob du diese auch bestimmen kannst und wieviele Anwendungen du von deiner QS bekommst.'.format(message, anz_plants)
-			msg_2 = prettyprintlist(plant_list, ['Name', 'Schwierigkeit', 'Weblink'])
-			await message.channel.send(msg)
-			await message.channel.send(msg_2)
+			if QS == 0:
+				plant_list = plant_df[['Pflanze', 'Suchschwierigkeit', 'Bestimmungsschwierigkeit', 'Link']].values.tolist()
+				msg = '{0.author.mention} Es gibt folgende  Pflanzen. Teste bitte noch ob du diese auch findest und bestimmen kannst und wieviele Anwendungen du von deiner QS bekommst.'.format(message)
+				msg_2 = '```\n'+  prettyprintlist(plant_list, ['Name', 'Suchschwierigkeit', 'Bestimmungschwierigkeit', 'Weblink']) + '```'
+				await message.channel.send(msg)
+				await message.channel.send(msg_2)
+
+			else:
+				anz_plants = plant_num(QS)
+				#Implement here the selection of plants based on the numbers, differentiate the plants based on suchschwierigkeit
+				plant_df['Wkeit'] = plant_df['Suchschwierigkeit'].apply(convert_suchschwierigkeit)
+				sum_Wkeit = plant_df['Wkeit'].sum()
+				plant_df['relWkeit'] = plant_df['Wkeit'].apply(relative_schwierigkeit, args=(sum_Wkeit,))
+				plant_df['cumrelWkeit'] = plant_df['relWkeit'].cumsum()
+				plant_df = plant_df.sample(n=anz_plants, weights = 'Wkeit', replace=True)
+				plant_list = plant_df[['Pflanze','Bestimmungsschwierigkeit','Link']].values.tolist()
+				msg = '{0.author.mention} Du findest {1} Pflanzen. Teste bitte noch ob du diese auch bestimmen kannst und wieviele Anwendungen du von deiner QS bekommst.'.format(message, anz_plants)
+				msg_2 = '```\n' +  prettyprintlist(plant_list, ['Name', 'Schwierigkeit', 'Weblink']) +  '```'
+				await message.channel.send(msg)
+				await message.channel.send(msg_2)
 
 # Loot	
 
