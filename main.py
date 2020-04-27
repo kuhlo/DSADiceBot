@@ -80,33 +80,19 @@ async def on_message(message):
 			if g.name not in ('Die verphexte 20', 'KuhloTest'):
 				await g.leave()
 		await message.channel.send(msg)
-		
     # Sag Hallo
 	elif message.content == ('.hello'):
 		msg = '{0} {1.author.mention}. Steig hinab in tiefe Dungeons voller Ungeheuer aus den Niederhöllen, oder erkunde fremde Sphären voller Magie... '.format(GetBegruessung(), message)
 		await message.channel.send(msg)
-    
+
 		# Münzwurf
 	elif message.content.lower() == ('.m'):
 		msg = '{0.author.mention} hat {1} geworfen.'.format(message, getCoinFace())
 		await message.channel.send(msg)
-
     # W6
 	elif message.content.lower() == ('.w6'):
 		msg = '{0.author.mention} hat {1} mit einem W6 geworfen.'.format(message, dice.roll('1d6'))
 		await message.channel.send(msg)
-    
-    #Statistik
-     # W6
-	elif message.content.lower() == ('.sum(w6)'):
-		ergebnis = dice.roll('600d6')
-		b = {}
-		for i in ergebnis:
-			b[i] = b.get(i, 0) + 1
-			ergebnis = sum(dice.roll('600d6'))
-		msg = '{0.author.mention} hat {1} mit sechshundert W6 geworfen (Erwartungswert 2100). {2}'.format(message, ergebnis, b)
-		await message.channel.send(msg)
-
     # W20
 	elif message.content.lower() == ('.w20'):
 		msg = '{0.author.mention} hat {1} mit einem W20 geworfen.'.format(
@@ -183,14 +169,12 @@ async def on_message(message):
             msg_Magie, msg_Götter)
 		await message.channel.send(msg)
 
-
 # Pflanzen
 	elif message.content.lower() == ('.pflanzen'):
 		ueberschriften_reg = ['Region', 'Kürzel']
 		ueberschriften_ter = ['Terrain', 'Kürzel']
 		ueberschriften_wet = ['Wetter', 'Modifikation']
 		ueberschriften_mod = ['Terrain', 'Modifikation']
-
 		table_reg = [['Nordlande', 'NO'], ['Thorwal', 'TH'], ['Bornland', 'BO'], ['Firnelfen', 'FI'], ['Au- und Waldelfen', 'EL'], ['Orkland', 'OR'], ['Weiden und Greifenfurt', 'WE'], ['Havena, Albernia, Windhag auch Nostria und Andergast', 'HA'], ['Zentrales Mittelreich', 'GA'], ['Eisenwald, Amboss und Kosch', 'EI'], ['Punin, Almada', 'PU'], ['Zentrales Horasreich', 'HO'], ['Zyklopeninseln', 'ZY'], ['Khomwueste', 'KH'], ['Mhanadistan und Aranien', 'MH'], ['Maraskan', 'MA'], ['Al’Anfa, Trahelien, Selem', 'AL'], ['Mohagebiete', 'MO'], ['Waldinseln', 'WA'], ['Tobrien', 'TO']]
 		table_ter = [['Wald', 'WA'], ['Eis', 'EI'], ['Ebene', 'EB'], ['Flussauen', 'FL'], ['Gebirge', 'GE'], ['Moor', 'MO'], ['Hoehlen', 'HO'], ['Kueste', 'KU'], ['Wueste', 'WU']]
 		table_wet = [['Regen/Schnee', -1], ['Sturm', -2], ['Orkan', -3], ['Sonstiges', 0]]
@@ -227,10 +211,7 @@ async def on_message(message):
 		region = message.content.upper()[10:12]
 		terrain = message.content.upper()[13:15]
 		QS = int(message.content[16])
-		#print(region)
-		#print(terrain)
-		#print(QS)
-		#print(type(QS))
+
 		if region not in ['NO', 'TH', 'BO', 'FI', 'EL', 'OR', 'WE', 'HA', 'GA', 'EI', 'PU', 'HO', 'ZY', 'KH', 'MH', 'MA', 'AL', 'MO', 'WA', 'TO']:
 			msg = '{0.author.mention} Keine gültige Regionenangabe'.format(message)
 			await message.channel.send(msg)
@@ -274,8 +255,7 @@ async def on_message(message):
 			wurf_kategorie = 4
 		else:
 			wurf_kategorie = sum(dice.roll('1d20'))
-		#print (wurf_kategorie)
-		
+
         # Zum testen der einzelnen Kategorien
         #wurf_kategorie = 8
 
