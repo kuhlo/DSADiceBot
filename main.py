@@ -257,7 +257,7 @@ async def on_message(message):
 			wurf_kategorie = sum(dice.roll('1d20'))
 
         # Zum testen der einzelnen Kategorien
-        #wurf_kategorie = 8
+		#wurf_kategorie = 8
 
         # Weiche für verschiedene Ergebnisse
 
@@ -362,7 +362,8 @@ async def on_message(message):
                         message, stoff, gut_secret)
 					for leiter in leiterList:
 						recipient = message.guild.get_member(leiter)
-						await client.send_message(recipient, msg_secret)
+						channel = await recipient.create_dm()
+						await channel.send(msg_secret)
 					msg = '{0.author.mention} findet eine Pflanze.'.format(
                         message)
 				else:
@@ -639,22 +640,26 @@ async def on_message(message):
 		await message.channel.send(msg)
 
 	elif message.content.lower() == ('.r'):
-
+	
         # Construct the list
-		activeUser = []
+		activeUser = message.author.voice.channel.members
+		print(f'Dies sind die aktiven user: {activeUser}')
         # Iterate through all online members which are not a bot
-		for member in message.channel.members:
+		for member in activeUser:
 			if member.status != discord.Status.offline:
                 #if member.bot == 'False':
 				if member.name not in ('DSADiceBot', 'Rythm', 'MEE6'):
 					if discord.utils.get(
-                            member.roles, name='Freunde') == None:
-						if discord.utils.get(
                                 member.roles, name='Spielleiter') == None:
-							if member.nick == None: activeUser.append(member.name)
-							else: activeUser.append(member.nick)
+						if member.nick == None: 
+							activeUser.remove(member.name)
+						else:  pass
+					else: 
+						activeUser.remove(member.name)
+
+		glueklicher = random.choice(activeUser)
 		msg = 'Ich habe {0} tapfere Recken gefunden! Der von {1.author.mention} erwählte ist: {2}!'.format(
-            len(activeUser), message, random.choice(activeUser))
+            len(activeUser), message, glueklicher.nick)
 
 		await message.channel.send(msg)
 
